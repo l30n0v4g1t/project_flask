@@ -14,6 +14,8 @@ def index():
 @app.route('/weather')
 def get_weather():
     city = request.args.get('city')
+    if not bool(city.strip):
+        city = 'Kansas City'
     weather_data = get_current_weather(city)
     return render_template(
         "weather.html",
