@@ -17,6 +17,10 @@ def get_weather():
     if not bool(city.strip):
         city = 'Kansas City'
     weather_data = get_current_weather(city)
+
+    if not weather_data["cod"] == 200:
+        return render_template('city-not-found.html')
+    
     return render_template(
         "weather.html",
         title=weather_data["name"],
