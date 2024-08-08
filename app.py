@@ -1,13 +1,21 @@
-from datetime import datetime
-from flask import Flask, render_template, request
+from dotenv import load_dotenv
+from pprint import pprint
+import requests
+import os
 
-app = Flask(__name__)
+load_dotenv()
 
-@app.route('/')
-@app.route('/index')
-def index():
-    return 'Hello World'
-
+def get_current_weather(city="Kansas City"):
+    request_url = f'http://api.openweathermap.org/data/2.5/weather?appid={os.getenv("API_KEY")}&q={city}&units=imperial'
+    
+    weather_data = requests.get(request_url).json()
+    
+    return weather_data
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8000)
+    print('\n*** Get Current Weather Condition ***')
+    city = input("\n Please enter a city name")
+    weather_data = get_current_weather(city)
+
+    print('\n')
+    print(weather_data)
